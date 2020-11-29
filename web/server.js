@@ -1,16 +1,15 @@
-var express = require('express');
-var app = express();
-var path = require('path');
+const express = require('express');
+const app = express();
 require('dotenv').config(); //Required to access .env files
 
 //__dirname returns the directory that the currently executing script is in
-//Thus, the resulting path is: ./root/dist/index.html
+//Thus, the resulting path is: ./root/web/index.html
 //Ref: https://stackoverflow.com/questions/25463423/res-sendfile-absolute-path
-app.use(express.static(__dirname+'/dist'));
+app.use(express.static(__dirname+'/web'));
 
 app.get('/', function(req,res){
 	console.log('Main page loading...');
-	res.render('./dist/index.html');
+	res.render('./web/index.html');
 });
 
 /** 
@@ -22,5 +21,9 @@ app.get('/', function (req, res) {
 //App will run on process.env.PORT by default. Must specify or Heroku uses its default port
 //It runs on port 4000 only if process.env.PORT is not defined
 app.listen(process.env.PORT || 4000, function () {
-    console.log('App running on process.env.PORT or port 4000');
+  if(process.env.PORT !== undefined){
+    console.log(`App running on process.env.PORT ${process.env.PORT}`);
+  } else {
+    console.log(`App running on PORT 4000`);
+  }
 });
