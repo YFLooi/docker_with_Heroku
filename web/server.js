@@ -12,6 +12,11 @@ app.get('/', function(req,res){
 	res.render('./web/index.html');
 });
 
+app.get("/server/testResp", testResp)
+async function testResp (request, response) {
+  console.log('Request for data received by Express backend');
+  response.status(200).json("Request for data received by Express backend");
+}
 /** 
 app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, './dist','index.html'));
