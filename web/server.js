@@ -7,6 +7,7 @@ require('dotenv').config(); //Required to access .env files
 // Use bodyParser to parse JSON
 app.use(bodyParser.json())
 
+//URL calls must be before paths below to default html page. Otherwise, it will not work
 app.get("/server/testResp", testResp)
 async function testResp (req, res) {
   console.log('Request for data received by Express backend');
