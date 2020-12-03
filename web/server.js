@@ -9,10 +9,6 @@ app.use(express.static(__dirname+'/web'));
 
 app.get('/', function(req,res){
   console.log('Main page loading...');
-  
-  if (error) {
-    throw error
-  }
   res.sendFile(__dirname + '/client/public/index.html');
 });
 
