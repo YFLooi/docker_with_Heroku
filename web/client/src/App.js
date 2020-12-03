@@ -3,12 +3,15 @@ import './App.css';
 
 function App(props) {
   const queryExpress = () => {
-    fetch("/server/testGet", {method: "GET"})
-      //Here we chain 2 promise functions: The first fetches data (response), the second examines text in response (data)
+    fetch("/server/testGet/", {method: "GET"})
       .then(async function(response){
         const data = await response.json();
-        document.getElementById("message").innerHTML = data.toString();
-      })
+        console.log(data);
+        document.getElementById("message").innerHTML = data;
+    })  
+    .catch(function(error){
+        console.log("Request failed", error)
+    })
   }
   const clearMessage = () => {
     document.getElementById("message").innerHTML = "";

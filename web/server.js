@@ -1,15 +1,17 @@
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
 const path = require('path');
 require('dotenv').config(); //Required to access .env files
 
 
+// Use bodyParser to parse JSON
+app.use(bodyParser.json())
 //__dirname returns the directory that the currently executing script is in
 //Thus, the resulting path is: ./root/web/index.html
 //Ref: https://stackoverflow.com/questions/25463423/res-sendfile-absolute-path
-app.use(express.static(__dirname, 'client'));
 
-app.get('/', function(req,res){
+app.get('/server/', async function(req, res){
   console.log('Main page loading...');
   res.sendFile(__dirname + '/client/public/index.html');
 });
@@ -17,8 +19,10 @@ app.get('/', function(req,res){
 app.get("/server/testGet", testResp)
 async function testResp (req, res) {
   console.log('Request for data received by Express backend');
-  res.status(200).json("String sent by Express backend");
+  await res.status(200).json("String sent by Express backend");
 }
+
+app.use(express.static(path.join(__dirname, 'client')));
 
 //Put this last among all routes. Otherwise, it will return HTML to all fetch requests and trip up CORS. They interrupt each other
 // For any request that doesn't match, this sends the index.html file from the client. This is used for all of our React code.
