@@ -2,4 +2,4 @@ build:
   docker:
     web: web/Dockerfile #must be in root together with heroku.yml =
 run:
-  web: web/node server.js
+  web: node -C web/server.js
