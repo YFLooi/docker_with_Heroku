@@ -9,13 +9,13 @@ app.use(express.static(__dirname+'/web'));
 
 app.get('/', function(req,res){
 	console.log('Main page loading...');
-	res.render('./web/index.html');
+	res.render('./client/index.html');
 });
 
-app.get("/server/testResp", testResp)
+app.get("/server/testGet", testResp)
 async function testResp (request, response) {
   console.log('Request for data received by Express backend');
-  response.status(200).json("Request for data received by Express backend");
+  response.status(200).json("String sent by Express backend");
 }
 /** 
 app.get('/', function (req, res) {
