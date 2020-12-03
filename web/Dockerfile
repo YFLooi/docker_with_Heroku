@@ -1,4 +1,4 @@
-#Start from the pre-existing official Node image (v6.11.5)
+#Start from the pre-existing official Node image 
 #MANDATORY!
 FROM node:13.12.0
 #Specifies directory for all subsequent actions in image filesystem (never host's filesystem)
