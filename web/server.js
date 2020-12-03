@@ -9,13 +9,17 @@ app.use(express.static(__dirname+'/web'));
 
 app.get('/', function(req,res){
   console.log('Main page loading...');
-  response.sendFile(__dirname + '/client/public/index.html');
+  
+  if (error) {
+    throw error
+  }
+  res.sendFile(__dirname + '/client/public/index.html');
 });
 
 app.get("/server/testGet", testResp)
-async function testResp (request, response) {
+async function testResp (req, res) {
   console.log('Request for data received by Express backend');
-  response.status(200).json("String sent by Express backend");
+  res.status(200).json("String sent by Express backend");
 }
 
 //Put this last among all routes. Otherwise, it will return HTML to all fetch requests and trip up CORS. They interrupt each other
