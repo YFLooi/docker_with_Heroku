@@ -9,7 +9,7 @@ app.use(express.static(__dirname+'/web'));
 
 app.get('/', function(req,res){
   console.log('Main page loading...');
-  res.sendFile(__dirname + '/client/public/index.html');
+  res.sendFile(__dirname + '/client/build/index.html');
 });
 
 app.get("/server/testGet", testResp)

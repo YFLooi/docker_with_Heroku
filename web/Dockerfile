@@ -1,15 +1,20 @@
 #Start from the pre-existing official Node image 
 #MANDATORY!
 FROM node:13.12.0
-#Specifies directory for all subsequent actions in image filesystem (never host's filesystem)
-WORKDIR /usr/src/app
-#Does what it says: Copies package.json from host into image filesystem
-COPY package.json .
-#Run 'npm install' builds the package in the image's filesystem
-RUN npm install
-#Copies the rest of the app's source code into the image's filesystem
-COPY . .
-#Metadata that specifies how to run a container based on this image
-#Here, that is by using 'npm start' in the console!
-CMD [ "npm", "start" ]
 
+#Specifies directory for all subsequent actions in image filesystem (never host's filesystem)
+#"/usr/local/bin/" is what Heroku takes as the "root" folder. Files MUST be added here
+#or they cannot be found!
+WORKDIR /usr/local/bin/web
+#Copies the app's source code into the image's filesystem
+COPY . /usr/local/bin/web/
+
+#Installs packages for Express framework. Runs in container root directory.
+RUN npm install
+#Installs packages for React app
+RUN npm install --prefix client
+#Builds React app
+RUN npm run --prefix client build
+
+#Runs the app when container launches. Same as running in console
+CMD ["npm", "start"]
