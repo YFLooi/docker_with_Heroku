@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
+const path = require('path');
 require('dotenv').config(); //Required to access .env files
+
 
 //__dirname returns the directory that the currently executing script is in
 //Thus, the resulting path is: ./root/web/index.html
