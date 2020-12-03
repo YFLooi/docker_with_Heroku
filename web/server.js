@@ -4,20 +4,25 @@ const bodyParser = require('body-parser');
 const path = require('path');
 require('dotenv').config(); //Required to access .env files
 
-
 // Use bodyParser to parse JSON
 app.use(bodyParser.json())
-//__dirname returns the directory that the currently executing script is in
-//Thus, the resulting path is: ./root/web/index.html
-//Ref: https://stackoverflow.com/questions/25463423/res-sendfile-absolute-path
+
+app.get("/server/testResp", testResp)
+async function testResp (req, res) {
+  console.log('Request for data received by Express backend');
+  res.status(200).json("String sent by Express backend");
+}
 
 
-if(process.env.NODE_ENV !== "production"){
+if(process.env.NODE_ENV != "production"){
   app.get('/server/', async function(req, res){
     console.log('Main page loading...');
     res.sendFile(__dirname + '/client/public/index.html');
   });
 
+  //__dirname returns the directory that the currently executing script is in
+  //Thus, the resulting path is: ./root/web/index.html
+  //Ref: https://stackoverflow.com/questions/25463423/res-sendfile-absolute-path
   app.use(express.static(path.join(__dirname, 'client')));
 
   //Put this last among all routes. Otherwise, it will return HTML to all fetch requests and trip up CORS. They interrupt each other
@@ -26,7 +31,7 @@ if(process.env.NODE_ENV !== "production"){
   app.get('*', (req, res) => {  
     res.sendFile(path.join(__dirname+'/client/public/index.html'));
   })
-} else if(process.env.NODE_ENV === "production"){
+} else if(process.env.NODE_ENV == "production"){
   app.get('/server/', async function(req, res){
     console.log('Main page loading...');
     res.sendFile(__dirname + '/client/build/index.html');
@@ -41,16 +46,6 @@ if(process.env.NODE_ENV !== "production"){
     res.sendFile(path.join(__dirname+'/client/build/index.html'));
   })
 }
-
-
-app.get("/server/testGet", testResp)
-async function testResp (req, res) {
-  console.log('Request for data received by Express backend');
-  await res.status(200).json("String sent by Express backend");
-}
-
-
-
 
 //App will run on process.env.PORT by default. Must specify or Heroku uses its default port
 //It runs on port 4000 only if process.env.PORT is not defined

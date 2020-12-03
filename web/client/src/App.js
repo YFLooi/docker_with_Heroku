@@ -3,7 +3,7 @@ import './App.css';
 
 function App(props) {
   const queryExpress = () => {
-    fetch("/server/testGet/", {method: "GET"})
+    fetch("/server/testResp/", {method: "GET"})
       .then(async function(response){
         const data = await response.json();
         console.log(data);
