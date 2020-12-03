@@ -11,10 +11,37 @@ app.use(bodyParser.json())
 //Thus, the resulting path is: ./root/web/index.html
 //Ref: https://stackoverflow.com/questions/25463423/res-sendfile-absolute-path
 
-app.get('/server/', async function(req, res){
-  console.log('Main page loading...');
-  res.sendFile(__dirname + '/client/public/index.html');
-});
+
+if(process.env.NODE_ENV !== "production"){
+  app.get('/server/', async function(req, res){
+    console.log('Main page loading...');
+    res.sendFile(__dirname + '/client/public/index.html');
+  });
+
+  app.use(express.static(path.join(__dirname, 'client')));
+
+  //Put this last among all routes. Otherwise, it will return HTML to all fetch requests and trip up CORS. They interrupt each other
+  // For any request that doesn't match, this sends the index.html file from the client. This is used for all of our React code.
+  //Eliminates need to set redirect in package.json at start script with concurrently
+  app.get('*', (req, res) => {  
+    res.sendFile(path.join(__dirname+'/client/public/index.html'));
+  })
+} else if(process.env.NODE_ENV === "production"){
+  app.get('/server/', async function(req, res){
+    console.log('Main page loading...');
+    res.sendFile(__dirname + '/client/build/index.html');
+  });
+
+  app.use(express.static(path.join(__dirname, 'client/build')));
+
+  //Put this last among all routes. Otherwise, it will return HTML to all fetch requests and trip up CORS. They interrupt each other
+  // For any request that doesn't match, this sends the index.html file from the client. This is used for all of our React code.
+  //Eliminates need to set redirect in package.json at start script with concurrently
+  app.get('*', (req, res) => {  
+    res.sendFile(path.join(__dirname+'/client/build/index.html'));
+  })
+}
+
 
 app.get("/server/testGet", testResp)
 async function testResp (req, res) {
@@ -22,14 +49,8 @@ async function testResp (req, res) {
   await res.status(200).json("String sent by Express backend");
 }
 
-app.use(express.static(path.join(__dirname, 'client')));
 
-//Put this last among all routes. Otherwise, it will return HTML to all fetch requests and trip up CORS. They interrupt each other
-// For any request that doesn't match, this sends the index.html file from the client. This is used for all of our React code.
-//Eliminates need to set redirect in package.json at start script with concurrently
-app.get('*', (req, res) => {  
-  res.sendFile(path.join(__dirname+'/client/public/index.html'));
-})
+
 
 //App will run on process.env.PORT by default. Must specify or Heroku uses its default port
 //It runs on port 4000 only if process.env.PORT is not defined
