@@ -17,5 +17,4 @@ RUN npm install --prefix client
 RUN npm run --prefix client build
 
 #Runs the app when container launches. Same as running in console
-CMD ["npm", "postbuild"]
 CMD ["npm", "start"]
