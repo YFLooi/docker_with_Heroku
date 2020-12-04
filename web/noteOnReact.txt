@@ -1,2 +1,0 @@
-This setup does not work fine with React: React app simply won't start
-Works fine with simple HTML in client
