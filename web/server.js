@@ -5,9 +5,9 @@ const path = require('path');
 require('dotenv').config(); //Required to access .env files
 
 // Use bodyParser to parse JSON
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
-//URL calls must be before paths below to default html page. Otherwise, it will not work
+//URL call paths must be before paths below to default html page. Otherwise, it will not work
 app.get("/server/testResp", testResp)
 async function testResp (req, res) {
   console.log('Request for data received by Express backend');
@@ -40,7 +40,7 @@ if(process.env.NODE_ENV != "production"){
 
   app.use(express.static(path.join(__dirname, 'client/build')));
 
-  //Put this last among all routes. Otherwise, it will return HTML to all fetch requests and trip up CORS. They interrupt each other
+  //Put this last among all routes. Otherwise, it will return index.html to all fetch requests and trip up CORS. They interrupt each other
   // For any request that doesn't match, this sends the index.html file from the client. This is used for all of our React code.
   //Eliminates need to set redirect in package.json at start script with concurrently
   app.get('*', (req, res) => {  
