@@ -20,6 +20,7 @@ function App(props) {
   return(
     <div className="App">
       <h1>Express GET request example</h1>
+      <div>with heroku.yml</div>
       <button onClick={() => {queryExpress();}}>Make GET request</button>
       <button onClick={() => {clearMessage();}}>Clear message </button>
       <div id="message"></div>
