@@ -1,7 +1,2 @@
-<<<<<<< HEAD
-web/node_modules
-web/client/node_modules
-=======
 /web/node_modules
 /web/client/node_modules
->>>>>>> herokuYml

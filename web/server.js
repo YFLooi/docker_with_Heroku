@@ -7,12 +7,12 @@ require('dotenv').config(); //Required to access .env files
 //Ref: https://stackoverflow.com/questions/25463423/res-sendfile-absolute-path
 app.use(express.static(__dirname+'/web'));
 
-app.get('/', function(req,res){
+app.get('/server/', function(req,res){
   console.log('Main page loading...');
   res.sendFile(__dirname + '/client/build/index.html');
 });
 
-app.get("/server/testGet", testResp)
+app.get("/server/testResp", testResp)
 async function testResp (req, res) {
   console.log('Request for data received by Express backend');
   res.status(200).json("String sent by Express backend");
